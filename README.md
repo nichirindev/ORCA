@@ -1,2 +1,0 @@
-# ORCA
-a music visualizer
