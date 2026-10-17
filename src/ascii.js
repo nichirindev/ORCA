@@ -1,11 +1,10 @@
 /**
  * Image grid -> ASCII text rows.
  *
- * Port of the sampling logic in make_ascii_svg.py. One density ramp, one ink
- * color: monochrome is deliberate, per-character rainbow color is what makes
- * ASCII portraits look noisy.
+ * One density ramp, one ink color: monochrome is deliberate, per-character
+ * rainbow color is what makes ASCII portraits look noisy.
  *
- * Two tonal modes (they mirror the two branches of the Python script):
+ * Two tonal modes:
  *   "light"  cutout mode (background knocked out via alpha). Bright pixels
  *            become dense marks, so a light subject reads correctly as
  *            light-on-dark against the terminal background.
@@ -35,7 +34,7 @@ export function gridToRows(grid, opts = {}) {
   const last = code.length - 1;
   const count = cols * rows;
 
-  // 1. luminance (ITU-R BT.601, same weights as the Python script)
+  // 1. luminance (ITU-R BT.601)
   const lum = new Float32Array(count);
   let sum = 0;
   for (let i = 0; i < count; i++) {

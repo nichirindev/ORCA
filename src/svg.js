@@ -1,8 +1,8 @@
 /**
  * ASCII rows -> self-contained animated SVG string.
  *
- * Port of the SVG assembly in make_ascii_svg.py. Everything is SMIL
- * (<animate>/<set>) on purpose: GitHub runs SMIL inside <img> embeds where JS
+ * Everything is SMIL (<animate>/<set>) on purpose: GitHub runs SMIL inside
+ * <img> embeds where JS
  * does not, so the portrait "types" itself in on every view and then freezes:
  * each row gets a left-to-right clip wipe with a block cursor riding the wipe
  * edge, staggered top -> bottom (one cursor sweeping down).

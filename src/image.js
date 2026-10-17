@@ -1,5 +1,5 @@
 /**
- * Browser port of prep_photo.py:
+ * Background removal + framing:
  *   1. knock out the solid background by colour distance from the corners,
  *   2. crop square and centre on the subject with padding,
  *   3. hand back a canvas ready to be sampled down to the ASCII grid.
