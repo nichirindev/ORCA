@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ascii.term — my portraits</title>
+    <meta
+      name="description"
+      content="The portfolio: ASCII portraits you saved from the converter, each typing itself in as you scroll. Stored locally in your browser."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230d1117'/%3E%3Ctext x='50' y='70' font-size='54' text-anchor='middle' fill='%23c9d1d9' font-family='monospace'%3E%26gt;_%3C/text%3E%3C/svg%3E"
+    />
+    <script>
+      /* opened from disk (file://) blocks ES modules — say so instead of doing nothing */
+      if (location.protocol === "file:") {
+        addEventListener("DOMContentLoaded", () => {
+          const b = document.createElement("div");
+          b.className = "proto-banner";
+          b.textContent =
+            "This page was opened from disk (file://), so its scripts are blocked and the app can't run. Use `npm run dev`, or serve the dist/ folder over HTTP.";
+          document.body.prepend(b);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html"><span class="brand-prompt">▲</span> ascii.term</a>
+      <nav>
+        <a href="./index.html">Converter</a>
+        <a href="./gallery.html" class="active">My portraits</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <h1>Your portraits, printed one row at a time.</h1>
+        <p>
+          Everything you save from the converter lands here. Each card is a
+          self-contained SVG: when it scrolls into view it “types” itself in —
+          a block cursor wipes left-to-right across every row, top to bottom —
+          then freezes and holds. No JavaScript runs inside the artwork itself,
+          so the same file animates in a GitHub README, in an
+          <code>&lt;img&gt;</code> tag, anywhere SMIL is supported.
+        </p>
+        <a class="btn btn-primary" href="./index.html">+ Make a new portrait</a>
+      </section>
+
+      <section class="gallery-wrap">
+        <div id="gallery-empty" class="empty">
+          <div class="empty-art">.·´¯`·.¸¸.·´¯`·.  ̄\\_(ツ)_/¯  ·.·´¯`·.¸¸.·´¯`·.</div>
+          <p>No portraits yet.</p>
+          <p class="dim">Upload a photo in the converter, tune it, then hit <b>Save to gallery</b>.</p>
+          <a class="btn" href="./index.html">Open the converter</a>
+        </div>
+        <div id="gallery-grid" class="gallery-grid" hidden></div>
+      </section>
+
+      <section class="how">
+        <h2>How it works</h2>
+        <div class="how-grid">
+          <article>
+            <h3>1 · Prep</h3>
+            <p>
+              The background is knocked out by color distance from the corners,
+              then the subject is cropped square with padding. No solid
+              background? It falls back to photo mode automatically.
+            </p>
+          </article>
+          <article>
+            <h3>2 · Sample</h3>
+            <p>
+              The image shrinks to a ~180-column grid — rows follow the photo's
+              aspect ratio, so the finished art keeps the source's proportions.
+              Each cell becomes one
+              character from the density ramp <code class="mono"> .`:-=+*cs#%@</code>.
+              Bright cells go sparse, dark cells go dense.
+            </p>
+          </article>
+          <article>
+            <h3>3 · Assemble</h3>
+            <p>
+              One <code>&lt;text&gt;</code> per row — all the same gray — plus a
+              clip wipe and cursor per row, staggered top to bottom. The whole
+              portrait prints in ~6 seconds and holds forever.
+            </p>
+          </article>
+        </div>
+        <p class="why">
+          <b>Why monochrome?</b> Per-character rainbow color is exactly what
+          makes ASCII portraits look noisy. One ink color (<code class="mono">#c9d1d9</code>)
+          over a dark window, a good ramp, and a hard washout floor so busy
+          areas go blank instead of going to mush — that reads as clean type.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Portraits are stored in your browser only — nothing is uploaded.</span>
+      <span class="mono muted">style: Andrew6rant · reveal: pure SMIL</span>
+    </footer>
+
+    <script type="module" src="/src/gallery.js"></script>
+  </body>
+</html>

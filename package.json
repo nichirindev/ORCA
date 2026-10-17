@@ -1,0 +1,21 @@
+{
+  "name": "ascii-term",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Turn a portrait photo into a monochrome ASCII-art SVG that types itself in like a terminal, then freezes.",
+  "scripts": {
+    "dev": "vite",
+    "check": "node scripts/check-ids.mjs",
+    "build": "node scripts/check-ids.mjs && vite build",
+    "test:e2e": "node scripts/e2e.mjs",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.14.0",
+    "vite": "^7.1.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ascii.term — photo → typing ASCII portrait</title>
+    <meta
+      name="description"
+      content="Turn a portrait into a monochrome ASCII-art SVG that types itself in like a terminal. Runs entirely in your browser."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230d1117'/%3E%3Ctext x='50' y='70' font-size='54' text-anchor='middle' fill='%23c9d1d9' font-family='monospace'%3E%26gt;_%3C/text%3E%3C/svg%3E"
+    />
+    <script>
+      /* opened from disk (file://) blocks ES modules — say so instead of doing nothing */
+      if (location.protocol === "file:") {
+        addEventListener("DOMContentLoaded", () => {
+          const b = document.createElement("div");
+          b.className = "proto-banner";
+          b.textContent =
+            "This page was opened from disk (file://), so its scripts are blocked and the app can't run. Use `npm run dev`, or serve the dist/ folder over HTTP.";
+          document.body.prepend(b);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html"><span class="brand-prompt">▲</span> ascii.term</a>
+      <nav>
+        <a href="./index.html" class="active">Converter</a>
+        <a href="./gallery.html">My portraits</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <!-- ============ controls ============ -->
+      <section class="panel controls">
+        <input type="file" id="file-input" accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.bmp" hidden />
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a photo">
+          <div class="dropzone-inner">
+            <div class="dz-big">↓ drop a photo anywhere here</div>
+            <div class="dz-small">
+              or <span class="link-like">browse</span> / paste from clipboard
+            </div>
+          </div>
+        </div>
+        <div class="source-line">
+          <span id="source-name" class="source-name">no image selected</span>
+          <button id="clear-btn" class="btn btn-ghost" type="button">Clear</button>
+        </div>
+
+        <section class="control-group">
+          <h3>Subject</h3>
+          <label class="check">
+            <input type="checkbox" id="in-removebg" checked />
+            Knock out background
+            <span class="hint">solid-colour backgrounds only</span>
+          </label>
+          <div class="row" id="row-threshold">
+            <label for="in-threshold">Removal threshold</label>
+            <output id="val-threshold">26</output>
+            <input type="range" id="in-threshold" min="4" max="90" step="1" value="26" />
+          </div>
+          <label class="check">
+            <input type="checkbox" id="in-invert" />
+            Invert tones
+            <span class="hint">dark photo background? try this</span>
+          </label>
+        </section>
+
+        <section class="control-group">
+          <h3>Detail</h3>
+          <div class="row">
+            <label for="in-cols">Columns</label>
+            <output id="val-cols">180</output>
+            <input type="range" id="in-cols" min="60" max="300" step="10" value="180" />
+          </div>
+          <div class="row">
+            <label for="in-contrast">Contrast</label>
+            <output id="val-contrast">1.05</output>
+            <input type="range" id="in-contrast" min="0.4" max="2" step="0.05" value="1.05" />
+          </div>
+          <div class="row">
+            <label for="in-brightness">Brightness</label>
+            <output id="val-brightness">1.00</output>
+            <input type="range" id="in-brightness" min="0.4" max="2" step="0.05" value="1" />
+          </div>
+          <div class="row">
+            <label for="in-gamma">Gamma</label>
+            <output id="val-gamma">1.18</output>
+            <input type="range" id="in-gamma" min="0.4" max="2.5" step="0.02" value="1.18" />
+          </div>
+          <div class="row is-disabled" id="row-floor">
+            <label for="in-floor">White washout <span class="hint">photo mode</span></label>
+            <output id="val-floor">0.80</output>
+            <input type="range" id="in-floor" min="0.5" max="1" step="0.01" value="0.8" disabled />
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h3>Terminal</h3>
+          <div class="text-row">
+            <label for="in-title">Title bar</label>
+            <input type="text" id="in-title" value="guest@ascii: ~$ ./portrait.sh" spellcheck="false" />
+          </div>
+          <div class="text-row two">
+            <div>
+              <label for="in-user">Prompt</label>
+              <input type="text" id="in-user" value="guest@ascii" spellcheck="false" />
+            </div>
+            <div>
+              <label for="in-name">whoami</label>
+              <input type="text" id="in-name" value="developer" spellcheck="false" />
+            </div>
+          </div>
+          <div class="text-row two">
+            <div>
+              <label for="in-ink">Ink color</label>
+              <input type="color" id="in-ink" value="#c9d1d9" />
+            </div>
+            <div>
+              <label for="in-duration">Print time <span class="hint">seconds</span></label>
+              <input type="number" id="in-duration" min="2" max="15" step="0.5" value="6" />
+            </div>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="in-static" />
+            Freeze (no typing animation)
+          </label>
+          <details class="advanced">
+            <summary>Advanced</summary>
+            <div class="text-row">
+              <label for="in-ramp">Density ramp <span class="hint">dark → dense</span></label>
+              <input type="text" id="in-ramp" value=" .`:-=+*cs#%@" spellcheck="false" />
+            </div>
+          </details>
+        </section>
+      </section>
+
+      <!-- ============ preview ============ -->
+      <section class="panel preview-panel">
+        <div class="preview-head">
+          <span id="grid-size" class="mono muted">180 × 96 chars</span>
+          <span id="stats" class="mono muted"></span>
+        </div>
+        <div id="preview" class="preview">
+          <div class="placeholder"><span class="ph-line">$ ./portrait.sh --awaiting-portrait</span><span class="ph-line dim">upload, drop, or paste a photo to begin</span><span class="cursor-block"></span></div>
+        </div>
+        <div class="preview-foot">
+          <span id="prep-note" class="note"></span>
+          <span id="hint" class="note dim">monochrome on purpose: one ink + high contrast keeps it legible</span>
+        </div>
+        <div class="actions">
+          <button id="btn-replay" class="btn" type="button">↻ Replay</button>
+          <button id="btn-download" class="btn btn-primary" type="button">↓ Download SVG</button>
+          <button id="btn-copy" class="btn" type="button">⧉ Copy SVG</button>
+          <button id="btn-save" class="btn" type="button">★ Save to gallery</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Monochrome ASCII portraits · Andrew6rant style · pure-SMIL reveal (works inside GitHub &lt;img&gt;)</span>
+      <span class="mono muted">runs 100% in your browser</span>
+    </footer>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
